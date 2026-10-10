@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Omnidex</title>
+    <link rel="icon" type="image/png" href="./assets/images/favicon-omnitrix.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+        rel="stylesheet"
+    >
+    <link rel="stylesheet" href="./assets/css/style.css?v=11">
+</head>
+
+<body>
+
+    <div
+        class="transformation-flash"
+        id="transformationFlash"
+        aria-hidden="true"
+    ></div>
+
+    <main class="app">
+
+        <!-- =========================================
+             CABEÇALHO
+        ========================================== -->
+
+        <header class="header">
+
+            <div class="header-line"></div>
+
+            <h1>
+                <img
+                    class="brand-logo"
+                    src="./assets/images/icon.png"
+                    alt="Omnidex"
+                >
+            </h1>
+
+            <p>ENCICLOPÉDIA ALIENÍGENA</p>
+
+            <div class="header-line"></div>
+
+        </header>
+
+
+        <!-- =========================================
+             SELETOR DO OMNITRIX
+        ========================================== -->
+
+        <section class="selector-area">
+
+            <!-- BOTÃO ANTERIOR -->
+
+            <button
+                class="navigation-button left"
+                id="previousButton"
+                aria-label="Alien anterior"
+                disabled
+            >
+                <span class="arrow-shape">←</span>
+            </button>
+
+
+            <!-- =====================================
+                 OMNITRIX
+            ====================================== -->
+
+            <div class="omnitrix">
+
+                <audio
+                    id="alienChangeSound"
+                    src="./assets/sounds/omnisound.wav"
+                    preload="auto"
+                ></audio>
+
+                <audio
+                    id="alienRevealSound"
+                    src="./assets/sounds/omnitrixtransform.wav"
+                    preload="auto"
+                ></audio>
+
+                <audio
+                    id="alienDeactivationSound"
+                    src="./assets/sounds/desativaromni.mp3"
+                    preload="auto"
+                ></audio>
+
+                <!--
+                    Imagem do Omnitrix.
+
+                    Coloque o arquivo dentro de:
+
+                    img/omnitrix.png
+                -->
+
+                <img
+                    class="omnitrix-image"
+                    id="omnitrixImage"
+                    src="./assets/images/omnitrix.png"
+                    alt="Omnitrix"
+                >
+
+
+                <!--
+                    Área onde o alien selecionado
+                    será exibido.
+                -->
+
+                <div class="alien-display">
+
+                    <button
+                        class="alien-reveal-button"
+                        id="alienRevealButton"
+                        type="button"
+                        aria-controls="alienInfo"
+                        aria-expanded="false"
+                        aria-label="Transformar em alien"
+                        title="Clique para se transformar"
+                        disabled
+                    >
+                        <img
+                            id="alienImage"
+                            src=""
+                            alt=""
+                        >
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTÃO PRÓXIMO -->
+
+            <button
+                class="navigation-button right"
+                id="nextButton"
+                aria-label="Próximo alien"
+                disabled
+            >
+                <span class="arrow-shape">→</span>
+            </button>
+
+        </section>
+
+        <div class="activation-console">
+            <audio
+                id="omnitrixActivationSound"
+                src="./assets/sounds/ativaomni.mp3"
+                preload="auto"
+            ></audio>
+
+            <button
+                class="activation-button"
+                id="activationButton"
+                type="button"
+                aria-label="Ativar Omnitrix"
+                aria-pressed="false"
+                title="Ativar Omnitrix"
+            ></button>
+        </div>
+
+
+        <!-- =========================================
+             IDENTIFICAÇÃO DO ALIEN
+        ========================================== -->
+
+        <div id="alienInfo" hidden>
+
+            <section class="identity">
+
+                <span class="category">
+                    ALIEN SELECIONADO
+                </span>
+
+
+                <h2 id="alienName">
+                </h2>
+
+
+                <div class="identity-data">
+
+                    <!-- ESPÉCIE -->
+
+                    <div>
+
+                        <span>
+                            ESPÉCIE
+                        </span>
+
+                        <strong id="alienSpecies">
+                        </strong>
+
+                    </div>
+
+
+                    <!-- PLANETA -->
+
+                    <div>
+
+                        <span>
+                            PLANETA
+                        </span>
+
+                        <strong id="alienPlanet">
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================================
+                 INFORMAÇÕES DO ALIEN
+            ========================================== -->
+
+            <section class="information">
+
+
+                <!-- =====================================
+                     HABILIDADES
+                ====================================== -->
+
+                <article class="info-card">
+
+                    <div class="card-title">
+
+                        <span class="icon">
+                            01
+                        </span>
+
+                        <h3>
+                            HABILIDADES
+                        </h3>
+
+                    </div>
+
+
+                    <ul id="alienAbilities"></ul>
+
+                </article>
+
+
+                <!-- =====================================
+                     APARÊNCIA
+                ====================================== -->
+
+                <article class="info-card">
+
+                    <div class="card-title">
+
+                        <span class="icon">
+                            02
+                        </span>
+
+                        <h3>
+                            APARÊNCIA
+                        </h3>
+
+                    </div>
+
+
+                    <p id="alienAppearance"></p>
+
+                </article>
+
+
+                <!-- =====================================
+                     TRADIÇÕES
+                ====================================== -->
+
+                <article class="info-card">
+
+                    <div class="card-title">
+
+                        <span class="icon">
+                            03
+                        </span>
+
+                        <h3>
+                            PRIMEIRA APARIÇÃO
+                        </h3>
+
+                    </div>
+
+
+                    <p id="alienAparicao"></p>
+
+                </article>
+
+
+                <!-- =====================================
+                     PREDADOR NATURAL
+                ====================================== -->
+
+                <article class="info-card danger-card">
+
+                    <div class="card-title">
+
+                        <span class="icon">
+                            04
+                        </span>
+
+                        <h3>
+                            PREDADOR NATURAL
+                        </h3>
+
+                    </div>
+
+
+                    <p id="alienPredator"></p>
+
+                </article>
+
+
+            </section>
+
+        </div>
+
+
+        <!-- =========================================
+             RODAPÉ
+        ========================================== -->
+
+        <footer class="footer">
+
+            <span id="alienCounter">
+            </span>
+
+
+            <span>
+                © 2026 Pedro — OMNIDEX. Todos os direitos reservados.
+            </span>
+
+
+            <span class="status">
+                ● SYSTEM ONLINE
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="./assets/js/script.js?v=15"></script>
+
+</body>
+
+</html>

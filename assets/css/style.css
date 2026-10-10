@@ -1,0 +1,1342 @@
+/* =========================================================
+   CONFIGURAÇÕES GERAIS
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --black: #050505;
+    --dark: #0c0c0c;
+    --gray: #1b1b1b;
+    --gray-light: #888;
+
+    --green: #a8ff00;
+    --green-dark: #5e9700;
+    --white: #f4f4f4;
+
+    --danger: #ff453a;
+}
+
+body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #202020 0%,
+            #0a0a0a 65%,
+            #000000 100%
+        );
+
+    color: var(--white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    overflow-x: hidden;
+}
+
+.transformation-flash {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.transformation-flash.is-active {
+
+    animation: transformationFlash 1.15s ease-out both;
+}
+
+.transformation-flash.is-active.is-deactivating {
+    animation-name: deactivationFlash;
+}
+
+.transformation-flash::before,
+.transformation-flash::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100vmax;
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%) scale(0.05);
+}
+
+.transformation-flash::before {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(220, 255, 150, 0.8) 0%,
+            rgba(168, 255, 0, 0.42) 28%,
+            rgba(94, 151, 0, 0.12) 58%,
+            transparent 72%
+        );
+
+    filter: blur(12px);
+
+    mix-blend-mode: screen;
+
+    animation: transformationGlow 1.15s ease-out both;
+}
+
+.transformation-flash.is-deactivating::before {
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 235, 225, 0.95) 0%,
+            rgba(255, 69, 58, 0.8) 28%,
+            rgba(190, 20, 12, 0.36) 58%,
+            transparent 76%
+        );
+}
+
+.transformation-flash::after {
+
+    border: 3px solid rgba(206, 255, 128, 0.68);
+
+    box-shadow:
+        0 0 24px rgba(168, 255, 0, 0.75),
+        inset 0 0 24px rgba(168, 255, 0, 0.45);
+
+    animation: transformationRing 0.95s cubic-bezier(0.15, 0.7, 0.25, 1) both;
+}
+
+.transformation-flash.is-deactivating::after {
+    border-color: rgba(255, 185, 175, 0.9);
+    box-shadow:
+        0 0 30px rgba(255, 69, 58, 0.95),
+        inset 0 0 28px rgba(255, 69, 58, 0.7);
+}
+
+@keyframes transformationFlash {
+
+    0%, 100% {
+        opacity: 0;
+        background: rgba(168, 255, 0, 0);
+    }
+
+    9% {
+        opacity: 1;
+        background: rgba(168, 255, 0, 0.24);
+    }
+
+    24% {
+        opacity: 0.38;
+        background: rgba(168, 255, 0, 0.1);
+    }
+
+    43% {
+        opacity: 0.7;
+        background: rgba(168, 255, 0, 0.16);
+    }
+
+    68% {
+        opacity: 0.2;
+        background: rgba(168, 255, 0, 0.04);
+    }
+}
+
+@keyframes deactivationFlash {
+    0%, 100% {
+        opacity: 0;
+        background: rgba(255, 30, 20, 0);
+    }
+
+    12% {
+        opacity: 1;
+        background: rgba(255, 35, 25, 0.92);
+    }
+
+    28% {
+        opacity: 0.78;
+        background: rgba(210, 25, 18, 0.62);
+    }
+
+    46% {
+        opacity: 0.92;
+        background: rgba(255, 45, 30, 0.86);
+    }
+
+    72% {
+        opacity: 0.3;
+        background: rgba(160, 15, 10, 0.24);
+    }
+}
+
+@keyframes transformationGlow {
+
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.05);
+    }
+
+    12% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.42);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.6);
+    }
+}
+
+@keyframes transformationRing {
+
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.05);
+    }
+
+    12% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.35);
+    }
+}
+
+#alienInfo.alien-info-revealing {
+
+    animation: alienInfoReveal 0.55s ease-out both;
+}
+
+@keyframes alienInfoReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .transformation-flash.is-active,
+    .transformation-flash.is-active.is-deactivating,
+    .transformation-flash.is-active::before,
+    .transformation-flash.is-active::after,
+    #alienInfo.alien-info-revealing {
+        animation-duration: 0.01ms;
+    }
+}
+
+
+/* =========================================================
+   FUNDO
+========================================================= */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            rgba(255, 255, 255, 0.02) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.02) 1px,
+            transparent 1px
+        );
+
+    background-size: 50px 50px;
+
+    opacity: 0.4;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+
+    width: min(1200px, 92%);
+
+    margin: auto;
+
+    padding: clamp(20px, 4vh, 36px) 0 20px;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: clamp(20px, 3.5vh, 30px);
+}
+
+.header-line {
+
+    width: 145px;
+
+    height: 2px;
+
+    margin: 12px auto;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 10px var(--green);
+}
+
+.header h1 {
+
+    width: min(100%, 500px);
+
+    margin: 0 auto;
+}
+
+.brand-logo {
+
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+.header p {
+
+    margin-top: 8px;
+
+    color: var(--gray-light);
+
+    letter-spacing: 5px;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   SELETOR
+========================================================= */
+
+.selector-area {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: clamp(40px, 10vw, 150px);
+
+    margin-bottom: 24px;
+}
+
+.selector-area:not(.is-activated) .navigation-button,
+.selector-area:not(.is-activated) .alien-display {
+    visibility: hidden;
+}
+
+.selector-area.is-activated .navigation-button {
+    animation: selectorReveal 0.45s ease-out both;
+}
+
+.selector-area.is-transformed .navigation-button {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.selector-area.is-activated .alien-display {
+    animation: alienDisplayReveal 0.55s ease-out both;
+}
+
+@keyframes selectorReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes alienDisplayReveal {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%) scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.activation-console {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(1028px, 90%);
+    height: 52px;
+    margin: 0 auto 20px;
+}
+
+.activation-console[hidden] {
+    display: none;
+}
+
+.activation-button {
+    width: 58px;
+    height: 58px;
+    border: 7px solid #080808;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow:
+        0 0 0 4px #292929,
+        inset 0 0 0 3px #72a900,
+        0 0 12px rgba(168, 255, 0, 0.35);
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.activation-button:hover:not(:disabled) {
+    transform: scale(1.08);
+    box-shadow:
+        0 0 0 4px #383838,
+        inset 0 0 0 3px #72a900,
+        0 0 20px rgba(168, 255, 0, 0.75);
+}
+
+.activation-button:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 8px;
+}
+
+.activation-button:disabled {
+    cursor: default;
+}
+
+.activation-button:disabled:not(:hover) {
+    box-shadow:
+        0 0 0 4px #292929,
+        inset 0 0 0 3px #72a900,
+        0 0 16px rgba(168, 255, 0, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .selector-area.is-activated .navigation-button,
+    .selector-area.is-activated .alien-display {
+        animation-duration: 0.01ms;
+    }
+}
+
+/* =========================================================
+   OMNITRIX
+========================================================= */
+
+.omnitrix {
+
+    position: relative;
+
+    width: min(22vw, 42vh, 340px);
+    height: min(22vw, 42vh, 340px);
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: transparent;
+}
+
+.omnitrix-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+
+    z-index: 1;
+}
+
+.omnitrix-image.omnitrix-spinning {
+
+    animation: omnitrixSpin 0.6s ease-in-out;
+}
+
+.omnitrix-image.omnitrix-deactivation-glow {
+    animation: lowBatteryWarning var(--deactivation-duration, 4s) ease-out both;
+}
+
+@keyframes lowBatteryWarning {
+    0%, 100% {
+        filter: drop-shadow(0 0 0 rgba(255, 69, 58, 0));
+    }
+
+    12%, 38%, 64% {
+        filter:
+            drop-shadow(0 0 10px rgba(255, 69, 58, 0.95))
+            drop-shadow(0 0 24px rgba(255, 30, 20, 0.65));
+    }
+
+    25%, 51% {
+        filter: drop-shadow(0 0 1px rgba(255, 69, 58, 0.15));
+    }
+
+    78% {
+        filter:
+            drop-shadow(0 0 6px rgba(255, 69, 58, 0.6))
+            drop-shadow(0 0 14px rgba(255, 30, 20, 0.35));
+    }
+}
+
+@keyframes omnitrixSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .omnitrix-image.omnitrix-spinning {
+        animation-duration: 0.01ms;
+    }
+
+    .omnitrix-image.omnitrix-deactivation-glow {
+        animation-duration: 0.01ms;
+    }
+}
+
+/* =========================================================
+   SEGMENTOS
+========================================================= */
+
+.segment {
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 50%;
+}
+
+
+/*
+    As linhas internas são criadas com
+    pseudo-elementos.
+*/
+
+.segment::before,
+.segment::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 4px;
+
+    height: 170px;
+
+    background: #050505;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform-origin: center;
+}
+
+
+/* Diagonal esquerda */
+
+.segment-1::before {
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-32deg);
+}
+
+
+/* Diagonal direita */
+
+.segment-2::before {
+
+    transform:
+        translate(-50%, -50%)
+        rotate(32deg);
+}
+
+
+/* Segunda linha */
+
+.segment-3::before {
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-148deg);
+}
+
+
+/* Segunda linha */
+
+.segment-4::before {
+
+    transform:
+        translate(-50%, -50%)
+        rotate(148deg);
+}
+
+
+/* =========================================================
+   CENTRO DO OMNITRIX
+========================================================= */
+
+.alien-display {
+
+    position: absolute;
+
+    width: 56%;
+    aspect-ratio: 1;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 3;
+}
+
+.alien-reveal-button {
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.alien-reveal-button:focus-visible {
+
+    outline: 2px solid var(--green);
+
+    outline-offset: 4px;
+
+    border-radius: 50%;
+}
+
+#alienInfo[hidden] {
+
+    display: none;
+}
+
+
+.alien-display img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.3s ease;
+}
+
+#alienImage.alien-xlr8 {
+
+    position: relative;
+
+    left: -1.4%;
+}
+
+#alienImage.alien-aquatico {
+
+    position: relative;
+
+    left: 0.7%;
+    top: -1.1%;
+}
+
+#alienImage.alien-fantasmatico {
+
+    position: relative;
+
+    left: 1.5%;
+    top: 1.1%;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO DO ALIEN
+========================================================= */
+
+.alien-changing {
+
+    animation: alienChange 0.35s ease;
+
+}
+
+@keyframes alienChange {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            scale(0.4)
+            rotate(-10deg);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            rotate(0);
+    }
+
+}
+
+
+/* =========================================================
+   DETALHES EXTERNOS
+========================================================= */
+
+.omnitrix-detail {
+
+    position: absolute;
+
+    z-index: 10;
+
+    background: #050505;
+}
+
+
+/* superior */
+
+.omnitrix-detail.top {
+
+    top: -8px;
+
+    left: 50%;
+
+    width: 36px;
+    height: 18px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        0 0 15px 15px;
+}
+
+
+/* inferior */
+
+.omnitrix-detail.bottom {
+
+    bottom: -8px;
+
+    left: 50%;
+
+    width: 36px;
+    height: 18px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        15px 15px 0 0;
+}
+
+
+/* esquerda */
+
+.omnitrix-detail.left {
+
+    left: -8px;
+
+    top: 50%;
+
+    width: 18px;
+    height: 50px;
+
+    transform:
+        translateY(-50%);
+
+    border-radius:
+        0 20px 20px 0;
+}
+
+
+/* direita */
+
+.omnitrix-detail.right {
+
+    right: -8px;
+
+    top: 50%;
+
+    width: 18px;
+    height: 50px;
+
+    transform:
+        translateY(-50%);
+
+    border-radius:
+        20px 0 0 20px;
+}
+
+
+/* =========================================================
+   BOTÕES DE NAVEGAÇÃO
+========================================================= */
+
+.navigation-button {
+
+    width: 100px;
+    height: 100px;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    cursor: pointer;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.navigation-button .arrow-shape {
+
+    font-size: 80px;
+
+    font-weight: 300;
+
+    line-height: 1;
+}
+
+
+/* hover */
+
+.navigation-button:hover {
+
+    color: var(--green);
+
+    transform: scale(1.12);
+
+    text-shadow:
+        0 0 15px var(--green);
+}
+
+
+/* clique */
+
+.navigation-button:active {
+
+    transform: scale(0.95);
+
+}
+
+
+/* =========================================================
+   IDENTIDADE
+========================================================= */
+
+.identity {
+
+    text-align: center;
+
+    margin: 20px 0 35px;
+}
+
+
+.category {
+
+    display: block;
+
+    margin-bottom: 14px;
+
+    color: var(--green);
+
+    font-size: 10px;
+
+    letter-spacing: 5px;
+
+    font-weight: bold;
+}
+
+
+.identity h2 {
+
+    font-family: "Bangers", Impact, fantasy;
+
+    font-size: clamp(34px, 6vw, 58px);
+
+    letter-spacing: 2px;
+
+    line-height: 1.15;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 15px rgba(168, 255, 0, 0.25);
+}
+
+
+/* =========================================================
+   ESPÉCIE / PLANETA
+========================================================= */
+
+.identity-data {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 50px;
+
+    margin-top: 15px;
+}
+
+
+.identity-data div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.identity-data span {
+
+    font-size: 9px;
+
+    color: var(--gray-light);
+
+    letter-spacing: 3px;
+}
+
+
+.identity-data strong {
+
+    font-size: 17px;
+
+    letter-spacing: 2px;
+
+    color: var(--green);
+}
+
+
+/* =========================================================
+   INFORMAÇÕES
+========================================================= */
+
+.information {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.info-card {
+
+    min-height: 180px;
+
+    padding: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #171717,
+            #0b0b0b
+        );
+
+    border: 1px solid #2a2a2a;
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.info-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 3px;
+    height: 100%;
+
+    background: var(--green);
+}
+
+
+.info-card:hover {
+
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(168, 255, 0, 0.5);
+}
+
+
+/* =========================================================
+   TÍTULO DOS CARDS
+========================================================= */
+
+.card-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+
+.card-title .icon {
+
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--green);
+
+    color: var(--green);
+
+    font-size: 9px;
+
+    font-weight: bold;
+}
+
+
+.card-title h3 {
+
+    font-family: "Bangers", Impact, fantasy;
+
+    font-size: 25px;
+
+    letter-spacing: 1px;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   TEXTO
+========================================================= */
+
+.info-card p {
+
+    color: #b8b8b8;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   HABILIDADES
+========================================================= */
+
+.info-card ul {
+
+    list-style: none;
+}
+
+
+.info-card li {
+
+    position: relative;
+
+    margin-bottom: 10px;
+
+    padding-left: 18px;
+
+    color: #b8b8b8;
+
+    font-size: 14px;
+}
+
+
+.info-card li::before {
+
+    content: ">";
+
+    position: absolute;
+
+    left: 0;
+
+    color: var(--green);
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   CARD DO PREDADOR
+========================================================= */
+
+.danger-card {
+
+    border-color: #311717;
+}
+
+
+.danger-card::before {
+
+    background: var(--danger);
+}
+
+
+.danger-card .icon {
+
+    color: var(--danger);
+
+    border-color: var(--danger);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 30px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #222;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    color: #666;
+}
+
+
+.status {
+
+    color: var(--green);
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .selector-area {
+
+        gap: 15px;
+    }
+
+    .omnitrix {
+
+        width: 340px;
+        height: 340px;
+    }
+
+    .navigation-button {
+
+        width: 70px;
+        height: 70px;
+    }
+
+    .navigation-button .arrow-shape {
+
+        font-size: 55px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .app {
+
+        padding-top: 25px;
+    }
+
+    .selector-area {
+
+        gap: 0;
+    }
+
+    .omnitrix {
+
+        width: 280px;
+        height: 280px;
+    }
+
+    .navigation-button {
+
+        width: 55px;
+    }
+
+    .navigation-button .arrow-shape {
+
+        font-size: 42px;
+    }
+
+    .information {
+
+        grid-template-columns: 1fr;
+    }
+
+    .identity-data {
+
+        gap: 25px;
+    }
+
+    .footer {
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        text-align: center;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .selector-area {
+
+        display: grid;
+
+        grid-template-columns:
+            45px 1fr 45px;
+    }
+
+    .omnitrix {
+
+        width: 230px;
+        height: 230px;
+
+        margin: auto;
+    }
+
+    .identity h2 {
+
+        letter-spacing: 4px;
+    }
+
+    .identity-data {
+
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+}
